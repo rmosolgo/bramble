@@ -32,6 +32,20 @@ module Bramble
       clear_map(handle)
     end
 
+    def percent_mapped(handle)
+      percent_between_keys(
+        map_total_count_key(handle),
+        map_finished_count_key(handle)
+      )
+    end
+
+    def percent_reduced(handle)
+      percent_between_keys(
+        reduce_total_count_key(handle),
+        reduce_finished_count_key(handle)
+      )
+    end
+
     def clear_map(handle)
       map_group_keys = storage.map_keys_get(keys_key(handle))
       map_group_keys.each do |group_key|
@@ -52,6 +66,16 @@ module Bramble
 
     def self.storage
       Bramble::Storage
+    end
+
+    def self.percent_between_keys(total_key, finished_key)
+      total = storage.get(total_key).to_f
+      if total == 0
+        0
+      else
+        finished = storage.get(finished_key).to_i
+        finished / total
+      end
     end
   end
 end

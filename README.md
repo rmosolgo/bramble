@@ -43,6 +43,8 @@ Map-reduce with ActiveJob
   end
   ```
 
+  Inputs and outputs are serialized with __JSON__, so some Ruby types will be lost (eg, Symbols).
+
 - Start a job with a handle, module, and an (optional) argument for finding data:
 
   ```ruby
