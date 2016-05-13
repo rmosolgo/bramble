@@ -6,7 +6,7 @@ describe Bramble::Result do
 
     def items(arg)
       sleep 2
-      [:A, :B, :C]
+      [:A, :B, :C, :C]
     end
 
     def map(sym)

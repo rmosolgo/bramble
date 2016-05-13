@@ -6,7 +6,7 @@ module Bramble
 
     def perform(handle, implementation, values)
       Bramble::State.running?(handle) do
-        storage.set(total_count_key(handle), values.length)
+        storage.set(map_total_count_key(handle), values.length)
         values.each do |value|
           Bramble::MapJob.perform_later(handle, implementation.name, Bramble::Serialize.dump(value))
         end
@@ -25,10 +25,9 @@ module Bramble
         end
         Bramble::State.running?(handle) do
           finished = storage.increment(map_finished_count_key(handle))
-          total = storage.get(total_count_key(handle)).to_i
+          total = storage.get(map_total_count_key(handle)).to_i
           if finished == total
             Bramble::Reduce.perform(handle, implementation)
-            Bramble::State.clear_map(handle)
           end
         end
       end

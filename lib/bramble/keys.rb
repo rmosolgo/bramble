@@ -14,16 +14,20 @@ module Bramble
       "#{namespace(handle)}:keys"
     end
 
+    def map_total_count_key(handle)
+      "#{namespace(handle)}:map_total_count"
+    end
+
     def map_finished_count_key(handle)
       "#{namespace(handle)}:map_finished_count"
     end
 
-    def reduce_finished_count_key(handle)
-      "#{namespace(handle)}:reduce_finished_count"
+    def reduce_total_count_key(handle)
+      "#{namespace(handle)}:reduce_total_count"
     end
 
-    def total_count_key(handle)
-      "#{namespace(handle)}:total_count"
+    def reduce_finished_count_key(handle)
+      "#{namespace(handle)}:reduce_finished_count"
     end
 
     def result_key(handle)

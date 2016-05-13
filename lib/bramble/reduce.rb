@@ -5,9 +5,12 @@ module Bramble
     module_function
 
     def perform(handle, implementation)
-      all_raw_keys = storage.map_keys_get(keys_key(handle))
-      all_raw_keys.each do |raw_key|
-        Bramble::ReduceJob.perform_later(handle, implementation.name, raw_key)
+      Bramble::State.running?(handle) do
+        all_raw_keys = storage.map_keys_get(keys_key(handle))
+        storage.set(reduce_total_count_key(handle), all_raw_keys.length)
+        all_raw_keys.each do |raw_key|
+          Bramble::ReduceJob.perform_later(handle, implementation.name, raw_key)
+        end
       end
     end
 

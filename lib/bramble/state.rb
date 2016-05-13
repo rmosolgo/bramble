@@ -38,11 +38,12 @@ module Bramble
         storage.delete(data_key(handle, group_key))
       end
       storage.delete(keys_key(handle))
+      storage.delete(map_total_count_key(handle))
       storage.delete(map_finished_count_key(handle))
     end
 
     def clear_reduce(handle)
-      storage.delete(total_count_key(handle))
+      storage.delete(reduce_total_count_key(handle))
       storage.delete(reduce_finished_count_key(handle))
       storage.delete(result_key(handle))
     end

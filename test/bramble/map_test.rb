@@ -33,9 +33,11 @@ describe Bramble::Map do
     assert_equal({1 => 1, 2 => 6, 3 => 3}, get_data_for_handle("sum"))
 
     # The old job is cleared, the new job is still there:
-    assert_equal(nil, Bramble.config.storage.get(Bramble::Keys.total_count_key("sum:x")))
+    assert_equal(nil, Bramble.config.storage.get(Bramble::Keys.map_total_count_key("sum:x")))
+    assert_equal(nil, Bramble.config.storage.get(Bramble::Keys.reduce_total_count_key("sum:x")))
     assert_equal("y", Bramble.config.storage.get(Bramble::Keys.job_id_key("sum")))
-    assert_equal("5", Bramble.config.storage.get(Bramble::Keys.total_count_key("sum:y")))
+    assert_equal("5", Bramble.config.storage.get(Bramble::Keys.map_total_count_key("sum:y")))
+    assert_equal("3", Bramble.config.storage.get(Bramble::Keys.reduce_total_count_key("sum:y")))
   end
 
   it "cancels one job if it gets started twice" do

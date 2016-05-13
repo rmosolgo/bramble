@@ -28,7 +28,7 @@ module Bramble
     private
 
     def total_count
-      @total_count ||= storage.get(Bramble::Keys.total_count_key(handle)).to_i
+      @total_count ||= storage.get(Bramble::Keys.reduce_total_count_key(handle)).to_i
     end
 
     def finished_count
