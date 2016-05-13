@@ -6,6 +6,10 @@ describe Bramble::Storage::RedisStorage do
   end
 
   module CountLetters
+    def self.items(provided_items)
+      provided_items
+    end
+
     def self.map(word)
       word.upcase.each_char { |char| char != " ".freeze && yield(char, 1) }
     end
@@ -49,8 +53,8 @@ describe Bramble::Storage::RedisStorage do
       "H"=>1,
     }
 
-    assert_equal(berries, Bramble.read("berries"))
-    assert_equal(vines, Bramble.read("vines"))
-    assert_equal({}, Bramble.read("nonsense"))
+    assert_equal(berries, get_data_for_handle("berries"))
+    assert_equal(vines, get_data_for_handle("vines"))
+    assert_equal({}, get_data_for_handle("nonsense"))
   end
 end

@@ -1,9 +1,8 @@
 module Bramble
-  class ReduceJob < ActiveJob::Base
-    queue_as { Bramble.config.queue_as }
-    def perform(handle, reducer_name, key)
-      reducer = reducer_name.constantize
-      Bramble::Reduce.perform_reduce(handle, reducer, key)
+  class ReduceJob < Bramble::BaseJob
+    def perform(handle, job_id, implementation_name, key)
+      implementation = implementation_name.constantize
+      Bramble::Reduce.perform_reduce(handle, job_id, implementation, key)
     end
   end
 end

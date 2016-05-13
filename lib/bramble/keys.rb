@@ -1,5 +1,7 @@
 module Bramble
   module Keys
+    module_function
+
     def namespace(handle)
       "#{Bramble.config.namespace}:#{handle}"
     end
@@ -12,8 +14,12 @@ module Bramble
       "#{namespace(handle)}:keys"
     end
 
-    def finished_count_key(handle)
-      "#{namespace(handle)}:finished_count"
+    def map_finished_count_key(handle)
+      "#{namespace(handle)}:map_finished_count"
+    end
+
+    def reduce_finished_count_key(handle)
+      "#{namespace(handle)}:reduce_finished_count"
     end
 
     def total_count_key(handle)
@@ -22,6 +28,14 @@ module Bramble
 
     def result_key(handle)
       "#{namespace(handle)}:result"
+    end
+
+    def job_id_key(handle)
+      "#{namespace(handle)}:job_id"
+    end
+
+    def status_key(handle)
+      "#{namespace(handle)}:status"
     end
   end
 end

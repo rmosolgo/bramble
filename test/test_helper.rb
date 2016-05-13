@@ -9,3 +9,12 @@ Minitest.backtrace_filter = Minitest::BacktraceFilter.new
 
 # Load support files
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
+
+
+def get_data_for_handle(handle)
+  Bramble.get(handle).data
+end
+
+def wait_for_handle(handle)
+  while(Bramble.get(handle).running?) do end
+end

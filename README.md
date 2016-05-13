@@ -19,6 +19,11 @@ Map-reduce with ActiveJob
 
   ```ruby
   module LetterCount
+    # Generate a list of items based on some input
+    def self.items(filepath)
+      File.read(filepath).split(" ")
+    end
+
     # .map is called with each item in the input
     def self.map(word)
       letters = word.upcase.each_char
@@ -38,24 +43,26 @@ Map-reduce with ActiveJob
   end
   ```
 
-- Start a job with a handle, module, and some data:
+- Start a job with a handle, module, and an (optional) argument for finding data:
 
   ```ruby
   # used for fetching the result later:
   handle = "shakespeare-letter-count"
 
-  # Something that responds to #each:
-  data = hamlet.split(" ")
+  # will be sent to `.items(filepath)`
+  hamlet_path = "./shakespeare/hamlet.txt"
 
   # Begin the process:
-  Bramble.map_reduce(handle, LetterCount, words_in_hamlet)
+  Bramble.map_reduce(handle, LetterCount, hamlet_path)
   ```
 
 - Later, fetch the result using the handle:
 
   ```ruby
-  result = Bramble.read("shakespeare-letter-count")
-  # { "A" => 100, "B" => 100, ... }
+  result = Bramble.get("shakespeare-letter-count")
+  result.running?   # => false
+  result.finished?  # => true
+  result.data       # => { "A" => 100, "B" => 100, ... }
   ```
 
 - Delete the saved result:
@@ -70,6 +77,7 @@ Map-reduce with ActiveJob
 - Job convenience class?
 - `.fetch` to find-or-calculate?
 - Adapters: Memcache, ActiveRecord
+- Move marshaling to `Marshal`
 
 ## Development
 
