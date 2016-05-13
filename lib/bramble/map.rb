@@ -19,10 +19,12 @@ module Bramble
         implementation.map(value) do |map_key, map_val|
           Bramble::State.running?(handle) do
             raw_key = Bramble::Serialize.dump(map_key)
+            raw_value = Bramble::Serialize.dump(map_val)
             storage.map_keys_push(impl_keys_key, raw_key)
-            storage.map_result_push(data_key(handle, raw_key), Bramble::Serialize.dump(map_val))
+            storage.map_result_push(data_key(handle, raw_key), raw_value)
           end
         end
+
         Bramble::State.running?(handle) do
           finished = storage.increment(map_finished_count_key(handle))
           total = storage.get(map_total_count_key(handle)).to_i

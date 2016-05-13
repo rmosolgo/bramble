@@ -5,7 +5,7 @@ describe Bramble::Result do
     module_function
 
     def items(arg)
-      sleep 2
+      sleep 1
       [:A, :B, :C, :C]
     end
 
@@ -27,7 +27,7 @@ describe Bramble::Result do
     assert_equal false, res_1.finished?
     assert_equal({}, res_1.data)
 
-    wait_for_handle(handle)
+    thread.join
 
     res_2 = Bramble.get(handle)
     assert_equal false, res_2.running?

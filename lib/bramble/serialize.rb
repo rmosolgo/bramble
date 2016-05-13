@@ -3,7 +3,8 @@ module Bramble
   module Serialize
     # prepare an object for storage
     def self.dump(obj)
-      Marshal.dump(obj)
+      # Sidekiq didn't like some marshal-dumped stuff?
+      Marshal.dump(obj).force_encoding(Encoding::UTF_8)
     end
 
     # reload an object from storage
