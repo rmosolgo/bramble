@@ -50,9 +50,15 @@ Map-reduce with ActiveJob
   # { "A" => 100, "B" => 100, ... }
   ```
 
+- Delete the saved result:
+
+  ```ruby
+  Bramble.delete("shakespeare-letter-count")
+  ```
 
 ## Todo
 
+- Use `Storage` as gateway to `config.storage`
 - Job convenience class?
 - `.fetch` to find-or-calculate?
 - Adapters: Memcache, ActiveRecord

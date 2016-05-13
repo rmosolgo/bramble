@@ -7,7 +7,7 @@ describe Bramble::Map do
 
   module Sum
     def self.map(number)
-      yield(0, number)
+      yield(number, number)
     end
 
     def self.reduce(zero, numbers)
@@ -16,9 +16,9 @@ describe Bramble::Map do
   end
 
   it "processes stuff" do
-    Bramble::Map.perform("sum", Sum, [1,2,3,4])
-    assert_equal({"0" => 10}, Bramble.read("sum"))
-    Bramble::Map.perform("sum", Sum, [1,2,3,4,5])
-    assert_equal({"0" => 15}, Bramble.read("sum"))
+    Bramble::Map.perform("sum", Sum, [1,2,3])
+    assert_equal({1 => 1, 2 => 2, 3 => 3}, Bramble.read("sum"))
+    Bramble::Map.perform("sum", Sum, [1,2,3,2,2])
+    assert_equal({1 => 1, 2 => 6, 3 => 3}, Bramble.read("sum"))
   end
 end

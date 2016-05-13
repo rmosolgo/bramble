@@ -7,17 +7,9 @@ require "bramble/reduce"
 require "bramble/reduce_job"
 require "bramble/storage"
 require "bramble/version"
+require "bramble/conf"
 
 module Bramble
-  extend Bramble::Keys
-
-  CONF = OpenStruct.new(
-    redis_conn: nil,
-    namespace: "Bramble",
-    queue_as: :bramble,
-    storage: Bramble::Storage::RedisStorage
-  )
-
   def self.config
     if block_given?
       yield(Bramble::CONF)
@@ -36,5 +28,10 @@ module Bramble
   # Get results for `handle`, if they exist
   def self.read(handle)
     Bramble::Storage.read(handle)
+  end
+
+  # Remove results for `handle`, if there are any
+  def self.delete(handle)
+    Bramble::Storage.delete(handle)
   end
 end
