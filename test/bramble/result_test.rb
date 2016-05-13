@@ -32,6 +32,6 @@ describe Bramble::Result do
     res_2 = Bramble.get(handle)
     assert_equal false, res_2.running?
     assert_equal true, res_2.finished?
-    assert_equal({A: :A, B: :B, C: :C}, res_2.data)
+    assert_equal({"A" => "A", "B" => "B", "C" => "C"}, res_2.data)
   end
 end

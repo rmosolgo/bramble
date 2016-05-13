@@ -1,10 +1,10 @@
+require "json"
 module Bramble
   # eg, Redis uses strings only, so use this module to freeze and thaw values from storage
   module Serialize
     # prepare an object for storage
     def self.dump(obj)
-      # Sidekiq didn't like some marshal-dumped stuff?
-      Marshal.dump(obj).force_encoding(Encoding::UTF_8)
+      JSON.dump(obj)
     end
 
     # reload an object from storage
@@ -17,8 +17,10 @@ module Bramble
           memo[load(k)] = load(v)
           memo
         end
+      when nil
+        nil
       else
-        Marshal.load(stored_obj)
+        JSON.load(stored_obj)
       end
     end
   end
