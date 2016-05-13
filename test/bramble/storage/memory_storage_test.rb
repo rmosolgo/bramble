@@ -26,5 +26,9 @@ describe Bramble::Storage::MemoryStorage do
     Bramble.map_reduce("sort_2", BigSmallSort, [6, 600, 96, 106])
     assert_equal({"big" => 605, "small" => 100}, Bramble.read("sort_1"))
     assert_equal({"big" => 706, "small" => 102}, Bramble.read("sort_2"))
+    Bramble.delete("sort_1")
+    Bramble.delete("sort_2")
+    assert_equal({}, Bramble.read("sort_1"))
+    assert_equal({}, Bramble.read("sort_2"))
   end
 end

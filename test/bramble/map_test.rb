@@ -16,7 +16,10 @@ describe Bramble::Map do
   end
 
   it "processes stuff" do
-    Bramble::Map.perform("sum", Sum, [1,2,3])
+    t = Thread.new {
+      Bramble::Map.perform("sum", Sum, [1,2,3])
+    }
+    t.join
     assert_equal({1 => 1, 2 => 2, 3 => 3}, Bramble.read("sum"))
     Bramble::Map.perform("sum", Sum, [1,2,3,2,2])
     assert_equal({1 => 1, 2 => 6, 3 => 3}, Bramble.read("sum"))
