@@ -5,11 +5,16 @@ module Bramble
     attr_reader :handle
 
     def initialize(handle)
-      @handle = handle
+      job_id = storage.get(Bramble::Keys.job_id_key(handle))
+      @handle = "#{handle}:#{job_id}"
     end
 
     def data
-      @data ||= Bramble::Storage.read(handle)
+      @data ||= begin
+        key = Bramble::Keys.result_key(handle)
+        results = storage.reduce_result_get(key)
+        Bramble::Serialize.load(results)
+      end
     end
 
     def finished?
@@ -35,7 +40,7 @@ module Bramble
     end
 
     def storage
-      Bramble.config.storage
+      Bramble::Storage
     end
   end
 end

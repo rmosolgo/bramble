@@ -15,7 +15,7 @@ Map-reduce with ActiveJob
   end
   ```
 
-- Define a module with `map` and `reduce` functions:
+- Define a module with `map`, `reduce` and `items(options = {})` functions:
 
   ```ruby
   module LetterCount
@@ -73,11 +73,8 @@ Map-reduce with ActiveJob
 
 ## Todo
 
-- Use `Storage` as gateway to `config.storage`
-- Job convenience class?
 - `.fetch` to find-or-calculate?
 - Adapters: Memcache, ActiveRecord
-- Move marshaling to `Marshal`
 
 ## Development
 

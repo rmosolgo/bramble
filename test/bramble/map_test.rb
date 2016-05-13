@@ -6,6 +6,11 @@ describe Bramble::Map do
   end
 
   module Sum
+    JOB_IDS = []
+    def self.job_id
+      JOB_IDS.shift || raise("No more job_ids")
+    end
+
     def self.items(provided_items)
       provided_items
     end
@@ -21,13 +26,20 @@ describe Bramble::Map do
   end
 
   it "processes stuff" do
-    Bramble.map_reduce("sum", Sum, [1,2,3], job_id: "x")
+    Sum::JOB_IDS << "x" << "y"
+    Bramble.map_reduce("sum", Sum, [1,2,3])
     assert_equal({1 => 1, 2 => 2, 3 => 3}, get_data_for_handle("sum"))
-    Bramble.map_reduce("sum", Sum, [1,2,3,2,2], job_id: "y")
+    Bramble.map_reduce("sum", Sum, [1,2,3,2,2])
     assert_equal({1 => 1, 2 => 6, 3 => 3}, get_data_for_handle("sum"))
+
+    # The old job is cleared, the new job is still there:
+    assert_equal(nil, Bramble.config.storage.get(Bramble::Keys.total_count_key("sum:x")))
+    assert_equal("y", Bramble.config.storage.get(Bramble::Keys.job_id_key("sum")))
+    assert_equal("5", Bramble.config.storage.get(Bramble::Keys.total_count_key("sum:y")))
   end
 
   it "cancels one job if it gets started twice" do
+    Sum::JOB_IDS << "x1" << "y1"
     handle = "sum"
     threads = [
       Thread.new { sleep 0.1; Bramble.map_reduce(handle, Sum, [1,2,3]) },

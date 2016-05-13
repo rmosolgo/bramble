@@ -9,6 +9,10 @@ module Bramble
 
       module_function
 
+      def transaction
+        yield
+      end
+
       def set(key, value)
         STORAGE[key] = value
       end
