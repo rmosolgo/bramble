@@ -1,4 +1,4 @@
-# Bramble [![Build Status](https://travis-ci.org/rmosolgo/bramble.svg?branch=master)](https://travis-ci.org/rmosolgo/bramble)
+# Bramble [![Build Status](https://travis-ci.org/rmosolgo/bramble.svg?branch=master)](https://travis-ci.org/rmosolgo/bramble) [![Gem Version](https://badge.fury.io/rb/bramble.svg)](https://badge.fury.io/rb/bramble)
 
 Map-reduce with ActiveJob + database
 
