@@ -1,6 +1,10 @@
 # Bramble [![Build Status](https://travis-ci.org/rmosolgo/bramble.svg?branch=master)](https://travis-ci.org/rmosolgo/bramble)
 
-Map-reduce with ActiveJob
+Map-reduce with ActiveJob + database
+
+## Rationale
+
+We have some staff-only views that expose stats about how people use our app. Eventually, our tables grew so large that MySQL wouldn't aggregate them all at once. So we can use this to generate those stats over time.
 
 ## Usage
 
@@ -62,9 +66,13 @@ Map-reduce with ActiveJob
 
   ```ruby
   result = Bramble.get("shakespeare-letter-count")
-  result.running?   # => false
-  result.finished?  # => true
-  result.data       # => { "A" => 100, "B" => 100, ... }
+  result.running?         # => false
+  result.finished?        # => true
+  result.data             # => { "A" => 100, "B" => 100, ... }
+  result.percent_finished # 1.0
+  result.percent_mapped   # 1.0
+  result.percent_reduced  # 1.0
+  result.finished_at      # 2016-05-16 12:31:00 UTC
   ```
 
 - Delete the saved result:
@@ -75,8 +83,9 @@ Map-reduce with ActiveJob
 
 ## Todo
 
-- `.fetch` to find-or-calculate?
-- Adapters: Memcache, ActiveRecord
+- Adapters: Memcached, ActiveRecord
+- Do we have atomicity issues? Occasional test failures
+- Consolidate storage in Redis to a single key? (Could some keys be evicted while others remain?)
 
 ## Development
 

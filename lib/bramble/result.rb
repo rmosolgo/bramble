@@ -26,6 +26,7 @@ module Bramble
     end
 
     def finished?
+      # Possible to be greater than 1 because of floating-point arithmetic
       percent_finished >= 1
     end
 
