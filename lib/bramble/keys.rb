@@ -41,5 +41,9 @@ module Bramble
     def status_key(handle)
       "#{namespace(handle)}:status"
     end
+
+    def finished_at_key(handle)
+      "#{namespace(handle)}:finished_at"
+    end
   end
 end

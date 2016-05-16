@@ -2,13 +2,19 @@ module Bramble
   # This class exposes the data and some info about the state of the task
   class Result
 
-    attr_reader :handle, :percent_mapped, :percent_reduced
+    attr_reader :handle, :percent_mapped, :percent_reduced, :finished_at
 
     def initialize(handle)
       job_id = storage.get(Bramble::Keys.job_id_key(handle))
       @handle = "#{handle}:#{job_id}"
       @percent_mapped = Bramble::State.percent_mapped(@handle)
       @percent_reduced = Bramble::State.percent_reduced(@handle)
+      if finished?
+        finished_at_ms = storage.get(Bramble::Keys.finished_at_key(@handle)).to_i
+        @finished_at = Time.at(finished_at_ms)
+      else
+        @finished_at = nil
+      end
     end
 
     def data
@@ -20,7 +26,7 @@ module Bramble
     end
 
     def finished?
-      percent_finished == 1.0
+      percent_finished >= 1
     end
 
     def running?

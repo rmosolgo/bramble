@@ -28,6 +28,7 @@ describe Bramble::Result do
     assert_equal 0, res_1.percent_mapped
     assert_equal 0, res_1.percent_reduced
     assert_equal 0, res_1.percent_finished
+    assert_equal nil, res_1.finished_at
     assert_equal({}, res_1.data)
 
     thread.join
@@ -38,6 +39,7 @@ describe Bramble::Result do
     assert_equal 1.0, res_2.percent_finished
     assert_equal false, res_2.running?
     assert_equal true, res_2.finished?
+    assert_in_delta Time.now, res_2.finished_at, 1000, "Within the same second"
     assert_equal({"A" => "A", "B" => "B", "C" => "C"}, res_2.data)
   end
 end

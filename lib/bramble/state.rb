@@ -60,6 +60,7 @@ module Bramble
       storage.delete(reduce_total_count_key(handle))
       storage.delete(reduce_finished_count_key(handle))
       storage.delete(result_key(handle))
+      storage.delete(finished_at_key(handle))
     end
 
     private

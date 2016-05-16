@@ -23,6 +23,9 @@ module Bramble
         Bramble::State.running?(handle) do
           storage.reduce_result_set(result_key(handle), raw_key, Bramble::Serialize.dump(reduced_value))
           storage.increment(reduce_finished_count_key(handle))
+          if Bramble::State.percent_reduced(handle) >= 1
+            storage.set(finished_at_key(handle), Time.now.to_i)
+          end
         end
       else
         Bramble::State.clear_reduce(handle)
