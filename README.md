@@ -44,6 +44,16 @@ We have some staff-only views that expose stats about how people use our app. Ev
       # observations => [1, 1, 1, 1, 1]
       observations.length
     end
+
+    # If a .map or .reduce hits an error,
+    # it will be rescued and passed here.
+    # To cause the job to fail, raise it again.
+    # Otherwise, let it pass
+    def self.on_error(err)
+      Bugsnag.notify(err)
+      # Or, to trigger a faiure:
+      # raise(err)
+    end
   end
   ```
 
@@ -84,6 +94,7 @@ We have some staff-only views that expose stats about how people use our app. Ev
 ## Todo
 
 - Adapters: Memcached, ActiveRecord
+- Warn if no storage is configured
 - Do we have atomicity issues? Occasional test failures
 - Consolidate storage in Redis to a single key? (Could some keys be evicted while others remain?)
 
