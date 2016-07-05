@@ -1,4 +1,5 @@
 module Bramble
+  # A collection of helpers for getting string keys in the storage adapter.
   module Keys
     module_function
 

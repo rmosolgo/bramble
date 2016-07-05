@@ -1,4 +1,5 @@
 module Bramble
+  # Call `.reduce` for `key`
   class ReduceJob < Bramble::BaseJob
     def perform(handle, implementation_name, key)
       implementation = implementation_name.constantize

@@ -4,6 +4,7 @@ module Bramble
 
     module_function
 
+    # Queue up a job to call `.reduce` on keys for `handle`
     def perform(handle, implementation)
       Bramble::State.running?(handle) do
         # Set how many reduce call we expect
@@ -16,6 +17,7 @@ module Bramble
       end
     end
 
+    # Perform `.reduce` on `raw_key`, handling errors and saving the result
     def perform_reduce(handle, implementation, raw_key)
       if Bramble::State.running?(handle)
         raw_values = storage.map_result_get(data_key(handle, raw_key))

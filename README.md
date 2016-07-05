@@ -93,7 +93,7 @@ We have some staff-only views that expose stats about how people use our app. Ev
 
 ## Todo
 
-- Adapters: Memcached, ActiveRecord
+- Write some more adapters: Memcached, ActiveRecord
 - Warn if no storage is configured
 - Do we have atomicity issues? Occasional test failures
 - Consolidate storage in Redis to a single key? (Could some keys be evicted while others remain?)

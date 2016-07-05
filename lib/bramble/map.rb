@@ -4,6 +4,7 @@ module Bramble
 
     module_function
 
+    # For each of `values`, queue up a job to call the map function
     def perform(handle, implementation, values)
       Bramble::State.running?(handle) do
         storage.set(map_total_count_key(handle), values.length)
@@ -13,6 +14,7 @@ module Bramble
       end
     end
 
+    # Call `.map` on `value`, storing the result for `.reduce` and handling any error.
     def perform_map(handle, implementation, value)
       Bramble::State.running?(handle) do
         impl_keys_key = keys_key(handle)

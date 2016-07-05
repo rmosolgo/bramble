@@ -1,4 +1,5 @@
 module Bramble
+  # Helpers for detecting and managing the state of a given `handle` while the job is (or isn't) running
   module State
     extend Bramble::Keys
     SEPARATOR = ":"
@@ -14,6 +15,7 @@ module Bramble
       is_running
     end
 
+    # Mark `handle` as started
     def start_job(handle)
       handle_name, job_id = handle.split(SEPARATOR)
       previous_job_id = storage.get(job_id_key(handle_name))
@@ -24,6 +26,7 @@ module Bramble
       storage.set(job_id_key(handle_name), job_id)
     end
 
+    # Clear the state of `handle`
     def clear_job(handle)
       handle_name, job_id = handle.split(SEPARATOR)
       storage.delete(job_id_key(handle_name))
@@ -32,6 +35,7 @@ module Bramble
       clear_map(handle)
     end
 
+    # How many values of `handle` have been sent to `.map`?
     def percent_mapped(handle)
       percent_between_keys(
         map_total_count_key(handle),
@@ -39,6 +43,7 @@ module Bramble
       )
     end
 
+    # How many values of `handle` have been sent to `.reduce?`
     def percent_reduced(handle)
       percent_between_keys(
         reduce_total_count_key(handle),
@@ -46,6 +51,7 @@ module Bramble
       )
     end
 
+    # Clear all traces of the `.map` operation for `handle`
     def clear_map(handle)
       map_group_keys = storage.map_keys_get(keys_key(handle))
       map_group_keys.each do |group_key|
@@ -56,6 +62,7 @@ module Bramble
       storage.delete(map_finished_count_key(handle))
     end
 
+    # Clear all traces of the `.reduce` operation for `handle`
     def clear_reduce(handle)
       storage.delete(reduce_total_count_key(handle))
       storage.delete(reduce_finished_count_key(handle))

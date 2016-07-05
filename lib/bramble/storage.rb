@@ -3,6 +3,8 @@ require "bramble/storage/redis_storage"
 require "bramble/storage/memory_storage"
 
 module Bramble
+  # A single access point to the storage selected by `Bramble.config.storage`.
+  # All methods are delegated to that storage adapter
   module Storage
     extend SingleForwardable
 

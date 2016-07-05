@@ -1,4 +1,5 @@
 module Bramble
+  # Calls the `.map(value)` function
   class MapJob < Bramble::BaseJob
     def perform(handle, mapper_name, raw_value)
       mapper = mapper_name.constantize
