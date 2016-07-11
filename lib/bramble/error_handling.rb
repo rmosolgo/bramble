@@ -5,7 +5,11 @@ module Bramble
     def self.rescuing(implementation)
       yield
     rescue StandardError => err
-      implementation.on_error(err)
+      if implementation.respond_to?(:on_error)
+        implementation.on_error(err)
+      else
+        raise(err)
+      end
     end
   end
 end
