@@ -39,4 +39,11 @@ describe Bramble::Storage::MemoryStorage do
     assert_equal({}, get_data_for_handle("sort_1"))
     assert_equal({}, get_data_for_handle("sort_2"))
   end
+
+  it "clears all data" do
+    Bramble.map_reduce("sort_1", BigSmallSort, [5, 500, 95, 105])
+    assert Bramble::Storage::MemoryStorage::STORAGE.size > 0
+    Bramble.delete_all
+    assert Bramble::Storage::MemoryStorage::STORAGE.size == 0
+  end
 end

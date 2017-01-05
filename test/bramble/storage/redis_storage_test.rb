@@ -57,4 +57,21 @@ describe Bramble::Storage::RedisStorage do
     assert_equal(vines, get_data_for_handle("vines"))
     assert_equal({}, get_data_for_handle("nonsense"))
   end
+
+  it "sets results to expire in 1 day" do
+    Bramble.map_reduce("greens", CountLetters, ["Spinach", "Arugula"])
+
+    res = Bramble.get("greens")
+    redis_key = "Bramble:#{res.handle}:result"
+    time_to_live = Bramble.config.redis_conn.ttl(redis_key)
+    one_day_in_seconds = 60 * 60 * 24
+    assert_in_delta(one_day_in_seconds, time_to_live, 2)
+  end
+
+  it "clears all data" do
+    Bramble.map_reduce("greens", CountLetters, ["Spinach", "Arugula"])
+    assert Bramble.config.redis_conn.keys("Bramble*").count > 0
+    Bramble.delete_all
+    assert Bramble.config.redis_conn.keys("Bramble*").count == 0
+  end
 end

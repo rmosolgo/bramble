@@ -56,6 +56,10 @@ module Bramble
       def map_keys_get(key)
         STORAGE[key] || Set.new
       end
+
+      def delete_all
+        STORAGE.clear
+      end
     end
   end
 end

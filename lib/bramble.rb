@@ -48,4 +48,9 @@ module Bramble
   def self.delete(handle)
     Bramble::State.clear_job(handle)
   end
+
+  # Clear _all_ data from Bramble runs
+  def self.delete_all
+    Bramble::Storage.delete_all
+  end
 end

@@ -12,7 +12,8 @@ module Bramble
       :set, :get, :delete, :increment,
       :map_result_push, :map_result_get,
       :reduce_result_set, :reduce_result_get,
-      :map_keys_push, :map_keys_get
+      :map_keys_push, :map_keys_get,
+      :delete_all
 
     private
 
