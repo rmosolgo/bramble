@@ -56,10 +56,13 @@ module Bramble
         Bramble.config.redis_conn
       end
 
-      ONE_DAY_IN_SECONDS = 60 * 60 * 24
+      def expire_after
+        Bramble.config.expire_after
+      end
+
       def redis_send(operation, key, *args)
         res = redis_conn.public_send(operation, key, *args)
-        redis_conn.expire(key, ONE_DAY_IN_SECONDS)
+        expire_after && redis_conn.expire(key, expire_after)
         res
       end
     end

@@ -16,6 +16,10 @@ We have some staff-only views that expose stats about how people use our app. Ev
   my_redis_connection = Redis.new # Your connection settings here!
   Bramble.config do |conf|
     conf.redis_conn = my_redis_connection
+    # By default, keys expire after 1 day.
+    # Assign a value here to override that:
+    # conf.expire_after = 60 * 60 * 24 * 7 # 7 days
+    # conf.expire_after = nil # never expire
   end
   ```
 
@@ -89,6 +93,12 @@ We have some staff-only views that expose stats about how people use our app. Ev
 
   ```ruby
   Bramble.delete("shakespeare-letter-count")
+  ```
+
+  Or delete everything:
+
+  ```ruby
+  Bramble.delete_all
   ```
 
 ## Todo
